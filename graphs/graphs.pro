@@ -21,9 +21,11 @@ SOURCES += \
         element.cpp \
         igraph.cpp \
         main.cpp \
+        notgate.cpp \
         orgate.cpp \
         signal.cpp \
-        switch.cpp
+        switch.cpp \
+        xorgate.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -36,6 +38,8 @@ HEADERS += \
     box.h \
     element.h \
     igraph.h \
+    notgate.h \
     orgate.h \
     signal.h \
-    switch.h
+    switch.h \
+    xorgate.h

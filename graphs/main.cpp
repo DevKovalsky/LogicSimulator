@@ -5,12 +5,7 @@
 #include "orgate.h"
 #include "switch.h"
 #include "andgate.h"
-
-//#include <iostream>
-//#include <array>
-//#include <iomanip>
-//#include <string>
-//#include <stack>
+#include "notgate.h"
 
 //class AdjacencyMatrix
 //{
@@ -135,6 +130,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<OrGate> or1 = std::make_shared<OrGate>(2);
     std::shared_ptr<OrGate> or2 = std::make_shared<OrGate>(2);
     std::shared_ptr<AndGate> and1 = std::make_shared<AndGate>(2);
+    std::shared_ptr<NotGate> not1 = std::make_shared<NotGate>();
     Box circuit{0, 0};
     circuit.addElement(switch1); // 0
     circuit.addElement(switch2); // 1
@@ -143,9 +139,10 @@ int main(int argc, char *argv[])
     circuit.addElement(or1); // 4
     circuit.addElement(or2); // 5
     circuit.addElement(and1); // 6
+    circuit.addElement(not1); // 7
 
-    switch1->toggleOutput();
-    switch2->toggleOutput();
+    //switch1->toggleOutput();
+    //switch2->toggleOutput();
     //switch3->toggleOutput();
     //switch4->toggleOutput();
 
@@ -155,13 +152,14 @@ int main(int argc, char *argv[])
     circuit.createConnectionBetweenElements(switch3->getIdx(), or2->getIdx(), 0, 0);
     circuit.createConnectionBetweenElements(switch4->getIdx(), or2->getIdx(), 1, 0);
 
-
     circuit.createConnectionBetweenElements(or1->getIdx(), and1->getIdx(), 0, 0);
     circuit.createConnectionBetweenElements(or2->getIdx(), and1->getIdx(), 1, 0);
 
+    circuit.createConnectionBetweenElements(and1->getIdx(), not1->getIdx(), 0, 0);
+
     circuit.process();
 
-    std::cout << "Output: " << and1->getOutput(0)->getVal() << std::endl;
+    std::cout << "Output: " << not1->getOutput(0)->getVal() << std::endl;
 
     return a.exec();
 }

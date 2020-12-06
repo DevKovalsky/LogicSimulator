@@ -17,8 +17,8 @@ public:
     State getState() { return mState; }
     uint32_t getVal() { return static_cast<uint32_t>(mState); }
 
-    void setState(State state) { mState = state; }
-    void setState(uint32_t val) { mState = State(val); }
+    inline void setState(State state);
+    inline void setState(uint32_t val);
 
 private:
     State mState{};

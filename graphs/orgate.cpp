@@ -13,8 +13,5 @@ void OrGate::process()
             res += input->getVal();
     }
 
-    if(res > 0)
-        mOutputs.at(0)->setState(State::HIGH);
-    else
-        mOutputs.at(0)->setState(State::LOW);
+    mOutputs.at(0)->setState(res);
 }
