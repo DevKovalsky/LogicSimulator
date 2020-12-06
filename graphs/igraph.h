@@ -9,9 +9,9 @@ class IGraph
 public:
     virtual ~IGraph() = default;
     virtual void addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) = 0;
-    virtual void removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) = 0;
+    virtual bool removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) = 0;
     virtual uint32_t addVertex() = 0;
-    virtual void removeVertex(uint32_t vertexIdx) = 0;
+    virtual bool removeVertex(uint32_t vertexIdx) = 0;
     virtual std::vector<uint32_t> getVertexNeighbors(uint32_t vertexIdx) = 0;
     virtual std::vector<uint32_t> getVerticesWhereIdxIsNeighbor(uint32_t vertexIdx) = 0;
     virtual uint32_t getVerticesCount() = 0;

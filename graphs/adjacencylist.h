@@ -11,6 +11,9 @@ public:
     ~AdjacencyList() override = default;
 
     void addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) override;
+    bool removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) override;
+    uint32_t addVertex() override;
+    bool removeVertex(uint32_t vertexIdx) override;
     std::vector<uint32_t> getVertexNeighbors(uint32_t vertexIdx) override;
     std::vector<uint32_t> getVerticesWhereIdxIsNeighbor(uint32_t vertexIdx) override;
     uint32_t getVerticesCount() override;

@@ -1,5 +1,7 @@
 #include "adjacencylist.h"
 
+#include <algorithm>
+
 AdjacencyList::AdjacencyList(uint32_t vertexCount)
 {
     mAdjacency.resize(vertexCount);
@@ -8,6 +10,37 @@ AdjacencyList::AdjacencyList(uint32_t vertexCount)
 void AdjacencyList::addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
 {
     mAdjacency.at(startVertexIdx).emplace_back(endVertexIdx);
+}
+
+bool AdjacencyList::removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
+{
+    auto neighbors = mAdjacency.at(startVertexIdx);
+    auto res = std::find(std::begin(neighbors), std::end(neighbors), endVertexIdx);
+    if(res != std::end(neighbors))
+    {
+        auto dis = std::distance(neighbors.begin(), res);
+        mAdjacency.at(startVertexIdx).erase(mAdjacency.at(startVertexIdx).begin() + dis);
+        return true;
+    }
+
+    return false;
+}
+
+uint32_t AdjacencyList::addVertex()
+{
+    uint32_t newVertexIdx = static_cast<uint32_t>(mAdjacency.size());
+    mAdjacency.emplace_back(newVertexIdx);
+    mAdjacency.at(newVertexIdx).resize(0); // ?
+    return newVertexIdx;
+}
+
+bool AdjacencyList::removeVertex(uint32_t vertexIdx) // vector idx shift :(, przy usunieciu->izolowany wierzcholek i idx do wolnej puli, najpierw z puli, nastepnie kolejny
+{
+    auto res = mAdjacency.erase(mAdjacency.begin() + vertexIdx);
+    if(res != std::end(mAdjacency))
+        return true;
+
+    return false;
 }
 
 uint32_t AdjacencyList::getInDegree(uint32_t vertexIdx)
@@ -128,7 +161,13 @@ std::vector<std::pair<uint32_t, uint32_t>> AdjacencyList::getAllBidirectionalEdg
 
 std::vector<uint32_t> AdjacencyList::getAllLoops()
 {
-    return {};
+    std::vector<uint32_t> loops{};
+    for(uint32_t i = 0; i < mAdjacency.size(); ++i)
+    {
+        if(isLoop(i))
+            loops.emplace_back(i);
+    }
+    return loops;
 }
 
 std::vector<uint32_t> AdjacencyList::DFS(uint32_t startVertexIdx)

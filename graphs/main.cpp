@@ -370,14 +370,18 @@ int main(int argc, char *argv[])
 
     adjacencyList.show();
 
-    std::cout << "---------------------- Topological sort ---------------------" << std::endl;
-    auto sort = adjacencyList.topologicalSort();
+    std::cout << "---------------------- TEST ---------------------" << std::endl;
 
-    while (sort.empty() == false)
-    {
-        std::cout << sort.top() << " ";
-        sort.pop();
-    }
+    adjacencyList.show();
+
+//    std::cout << "---------------------- Topological sort ---------------------" << std::endl;
+//    auto sort = adjacencyList.topologicalSort();
+
+//    while (sort.empty() == false)
+//    {
+//        std::cout << sort.top() << " ";
+//        sort.pop();
+//    }
 
     return a.exec();
 }

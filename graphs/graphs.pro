@@ -19,7 +19,8 @@ SOURCES += \
         box.cpp \
         element.cpp \
         igraph.cpp \
-        main.cpp
+        main.cpp \
+        signal.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -30,4 +31,5 @@ HEADERS += \
     adjacencylist.h \
     box.h \
     element.h \
-    igraph.h
+    igraph.h \
+    signal.h

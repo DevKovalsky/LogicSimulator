@@ -1,20 +1,26 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <memory>
 
 class Element //->Gate->OrGate... IO->Switch | ->Button... Box
 {
 public:
-    Element() = default;
-    ~Element() = default;
+    Element(uint32_t inputsCount, uint32_t outputsCount);
+    virtual ~Element() = default;
 
-    //void process
+    virtual void process() = 0;
 
-    //getOut
+    void setOutput(uint32_t outIdx, std::shared_ptr<Signal> signal);
+    std::shared_ptr<Signal> getOutput(uint32_t outIdx);
+    std::shared_ptr<Signal> getInput(uint32_t inIdx);
+    uint32_t getIdx();
 
 private:
     std::string name{};
-    //inputs vector<shared<Signal>> ??
-    //outputs vector<shared<Signal>>
+    uint32_t idx{};
+    std::vector<std::shared_ptr<Signal>> mInputs{};
+    std::vector<std::shared_ptr<Signal>> mOutputs{};
 };
 
