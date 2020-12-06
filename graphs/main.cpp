@@ -1,6 +1,10 @@
 #include <QCoreApplication>
 
 #include "adjacencylist.h"
+#include "box.h"
+#include "orgate.h"
+#include "switch.h"
+#include "andgate.h"
 
 //#include <iostream>
 //#include <array>
@@ -120,268 +124,44 @@
 //        return bidirectionalEdges;
 //    }
 
-//private:
-//    std::vector<std::vector<uint8_t>> mMatrix{};
-//    uint32_t mVertexCount{};
-//};
-
-//class AdjacencyList
-//{
-//public:
-//    AdjacencyList(uint32_t vertexCount)
-//    {
-//        mAdjacency.resize(vertexCount);
-//    }
-
-//    void addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
-//    {
-//        mAdjacency.at(startVertexIdx).emplace_back(endVertexIdx);
-//    }
-
-//    uint32_t getInDegree(uint32_t vertexIdx)
-//    {
-//        uint32_t counter{};
-//        for(auto& vertices : mAdjacency)
-//        {
-//            for(auto& vertex : vertices)
-//            {
-//                if(vertex == vertexIdx)
-//                    counter++;
-//            }
-//        }
-//        return counter;
-//    }
-
-//    uint32_t getOutDegree(uint32_t vertexIdx)
-//    {
-//        return static_cast<uint32_t>(mAdjacency.at(vertexIdx).size());
-//    }
-
-//    bool isIsolated(uint32_t vertexIdx)
-//    {
-//        return mAdjacency.at(vertexIdx).empty();
-//    }
-
-//    std::vector<uint32_t> getAllIsolatedVertices()
-//    {
-//        std::vector<uint32_t> isolated{};
-//        for(uint32_t i = 0; i < mAdjacency.size(); ++i)
-//        {
-//            if(isIsolated(i))
-//                isolated.emplace_back(i);
-//        }
-//        return isolated;
-//    }
-
-//    uint32_t getVerticesCount()
-//    {
-//        return static_cast<uint32_t>(mAdjacency.size());
-//    }
-
-//    std::vector<uint32_t> getVertexNeighbors(uint32_t vertexIdx) //sąsiedzi wierzchołka vi ->
-//    {
-//        return mAdjacency.at(vertexIdx);
-//    }
-
-//    std::vector<uint32_t> getVerticesWhereIdxIsNeighbor(uint32_t vertexIdx) //Wierzchołki, dla których vi  jest sąsiadem <-
-//    {
-//        std::vector<uint32_t> neighbors{};
-//        for(uint32_t i = 0; i < mAdjacency.size(); ++i)
-//        {
-//            for(auto& vertex : mAdjacency.at(i))
-//            {
-//                if(vertex == vertexIdx)
-//                {
-//                    neighbors.emplace_back(i);
-//                    break; // ?
-//                }
-//            }
-//        }
-//        return neighbors;
-//    }
-
-//    bool isLoop(uint32_t vertexIdx)
-//    {
-//        for(auto& vertex : mAdjacency.at(vertexIdx))
-//        {
-//            if(vertex == vertexIdx)
-//                return true;
-//        }
-//        return false;
-//    }
-
-//    bool isBidirectionalEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) //the same edges as 1 3 | 3 1
-//    {
-//        if(startVertexIdx == endVertexIdx)
-//            return false;
-
-//        uint32_t counter{};
-
-//        for(auto& vertex : mAdjacency.at(startVertexIdx))
-//        {
-//            if(vertex == endVertexIdx)
-//            {
-//                counter++;
-//                break;
-//            }
-//        }
-//        for(auto& vertex : mAdjacency.at(endVertexIdx))
-//        {
-//            if(vertex == startVertexIdx)
-//            {
-//                counter++;
-//                break;
-//            }
-//        }
-
-//        if(counter >= 2)
-//            return true;
-
-//        return false;
-//    }
-
-//    std::vector<std::pair<uint32_t, uint32_t>> getAllBidirectionalEdges()
-//    {
-//        std::vector<std::pair<uint32_t, uint32_t>> bidirectionalEdges{};
-//        for (uint32_t i = 0; i < mAdjacency.size(); ++i)
-//        {
-//            for (uint32_t j = 0; j < mAdjacency.at(i).size(); ++j)
-//            {
-//                if(isBidirectionalEdge(i, mAdjacency.at(i).at(j)))
-//                    bidirectionalEdges.emplace_back(std::pair<uint32_t, uint32_t>{i, mAdjacency.at(i).at(j)});
-//            }
-//        }
-//        return bidirectionalEdges;
-//    }
-
-//    std::vector<uint32_t> DFS(uint32_t startVertexIdx)
-//    {
-//        std::vector<uint32_t> dfs{};
-//        std::vector<bool> visited{};
-//        visited.resize(mAdjacency.size());
-//        recursiveDFS(startVertexIdx, dfs, visited);
-//        return dfs;
-//    }
-
-//    void recursiveDFS(uint32_t idx, std::vector<uint32_t>& dfs, std::vector<bool>& visited)
-//    {
-//        if(visited.at(idx))
-//            return;
-
-//        visited.at(idx) = true;
-//        dfs.emplace_back(idx); // "process"
-//        auto vertices = mAdjacency.at(idx);
-//        for(uint32_t j = 0; j < vertices.size(); ++j)
-//        {
-//            if(!visited.at(vertices.at(j)))
-//                recursiveDFS(vertices.at(j), dfs, visited);
-//        }
-//    }
-
-//    std::stack<uint32_t> topologicalSort()
-//    {
-//        std::stack<uint32_t> sorted{};
-//        std::vector<bool> visited{};
-//        visited.resize(mAdjacency.size());
-
-//        for(uint32_t i = 0; i < mAdjacency.size(); ++i)
-//        {
-//            if(visited.at(i) == false)
-//                topologicalSortRecursive(i, sorted, visited);
-//        }
-//        return sorted;
-//    }
-
-//    void topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::vector<bool>& visited)
-//    {
-//        visited.at(idx) = true;
-
-//        for(auto& el : mAdjacency.at(idx))
-//        {
-//            if(visited.at(el) == false)
-//                topologicalSortRecursive(el, sorted, visited);
-//        }
-
-//        sorted.push(idx);
-//    }
-
-//    void show()
-//    {
-//        for(uint32_t i = 0; i < mAdjacency.size(); ++i)
-//        {
-//            std::cout << i << ": ";
-//            for(uint32_t j = 0; j < mAdjacency.at(i).size(); ++j)
-//            {
-//                std::cout << mAdjacency.at(i).at(j) << " ";
-//            }
-//            std::cout << std::endl;
-//        }
-//    }
-
-//private:
-//    std::vector<std::vector<uint32_t>> mAdjacency;
-//};
-
-//namespace detail {
-//    template <typename First, typename Second>
-//    void printElement(const std::pair<First, Second>& pr)
-//    {
-//        std::cout << pr.first << " " << pr.second << " ";
-//    }
-
-//    template <typename Type>
-//    void printElement(const Type& element)
-//    {
-//        std::cout << element << " ";
-//    }
-//} // namespace detail
-
-//template<typename T>
-//void displayContainer(const T& container)
-//{
-//    for(const auto& el : container)
-//        detail::printElement(el);
-//    std::cout << std::endl;
-//}
-
-#include <deque>
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    AdjacencyList adjacencyList{5};
-//    adjacencyList.addEdge(0, 7);
-//    adjacencyList.addEdge(8, 10);
-//    adjacencyList.addEdge(3, 6);
-//    adjacencyList.addEdge(4, 5);
-//    adjacencyList.addEdge(2, 6);
-//    adjacencyList.addEdge(6, 8);
-//    adjacencyList.addEdge(5, 9);
-//    adjacencyList.addEdge(8, 9);
-//    adjacencyList.addEdge(9, 11);
-//    adjacencyList.addEdge(7, 8);
-//    adjacencyList.addEdge(1, 7);
-    adjacencyList.addEdge(0, 2);
-    adjacencyList.addEdge(1, 3);
-    adjacencyList.addEdge(2, 3);
-    adjacencyList.addEdge(3, 2);
-    adjacencyList.addEdge(2, 4);
+    std::shared_ptr<Switch> switch1 = std::make_shared<Switch>();
+    std::shared_ptr<Switch> switch2 = std::make_shared<Switch>();
+    std::shared_ptr<Switch> switch3 = std::make_shared<Switch>();
+    std::shared_ptr<Switch> switch4 = std::make_shared<Switch>();
+    std::shared_ptr<OrGate> or1 = std::make_shared<OrGate>(2);
+    std::shared_ptr<OrGate> or2 = std::make_shared<OrGate>(2);
+    std::shared_ptr<AndGate> and1 = std::make_shared<AndGate>(2);
+    Box circuit{0, 0};
+    circuit.addElement(switch1); // 0
+    circuit.addElement(switch2); // 1
+    circuit.addElement(switch3); // 2
+    circuit.addElement(switch4); // 3
+    circuit.addElement(or1); // 4
+    circuit.addElement(or2); // 5
+    circuit.addElement(and1); // 6
 
-    adjacencyList.show();
+    switch1->toggleOutput();
+    switch2->toggleOutput();
+    //switch3->toggleOutput();
+    //switch4->toggleOutput();
 
-    std::cout << "---------------------- TEST ---------------------" << std::endl;
+    circuit.createConnectionBetweenElements(switch1->getIdx(), or1->getIdx(), 0, 0);
+    circuit.createConnectionBetweenElements(switch2->getIdx(), or1->getIdx(), 1, 0);
 
-    adjacencyList.show();
+    circuit.createConnectionBetweenElements(switch3->getIdx(), or2->getIdx(), 0, 0);
+    circuit.createConnectionBetweenElements(switch4->getIdx(), or2->getIdx(), 1, 0);
 
-//    std::cout << "---------------------- Topological sort ---------------------" << std::endl;
-//    auto sort = adjacencyList.topologicalSort();
 
-//    while (sort.empty() == false)
-//    {
-//        std::cout << sort.top() << " ";
-//        sort.pop();
-//    }
+    circuit.createConnectionBetweenElements(or1->getIdx(), and1->getIdx(), 0, 0);
+    circuit.createConnectionBetweenElements(or2->getIdx(), and1->getIdx(), 1, 0);
+
+    circuit.process();
+
+    std::cout << "Output: " << and1->getOutput(0)->getVal() << std::endl;
 
     return a.exec();
 }

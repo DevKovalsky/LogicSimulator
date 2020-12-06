@@ -22,5 +22,5 @@ public:
 
 private:
     std::map<uint32_t, std::shared_ptr<Element>> mIdxsToElements{};
-    std::unique_ptr<AdjacencyList> mAdjacencyList{};
+    std::unique_ptr<AdjacencyList> mAdjacencyList;
 };

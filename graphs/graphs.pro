@@ -1,6 +1,6 @@
 QT -= gui
 
-CONFIG += c++11 console
+CONFIG += c++14 console
 CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
@@ -16,11 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         adjacencylist.cpp \
+        andgate.cpp \
         box.cpp \
         element.cpp \
         igraph.cpp \
         main.cpp \
-        signal.cpp
+        orgate.cpp \
+        signal.cpp \
+        switch.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -29,7 +32,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     adjacencylist.h \
+    andgate.h \
     box.h \
     element.h \
     igraph.h \
-    signal.h
+    orgate.h \
+    signal.h \
+    switch.h
