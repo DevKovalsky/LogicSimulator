@@ -157,6 +157,20 @@ int main(int argc, char *argv[])
 
     circuit.createConnectionBetweenElements(and1->getIdx(), not1->getIdx(), 0, 0);
 
+    std::shared_ptr<Switch> subSwitch1 = std::make_shared<Switch>();
+    std::shared_ptr<Switch> subSwitch2 = std::make_shared<Switch>();
+    std::shared_ptr<OrGate> subOr1 = std::make_shared<OrGate>(2);
+    std::shared_ptr<Box> subCircuit = std::make_shared<Box>(0, 0);
+    //start counting from n not from 0, static value, but for subcircuit should start from 0
+    subCircuit->addElement(subSwitch1);
+    subCircuit->addElement(subSwitch2);
+    subCircuit->addElement(subOr1);
+
+    subCircuit->createConnectionBetweenElements(subSwitch1->getIdx(), subOr1->getIdx(), 0, 0);
+    subCircuit->createConnectionBetweenElements(subSwitch2->getIdx(), subOr1->getIdx(), 1, 0);
+
+    circuit.addElement(subCircuit);
+
     circuit.process();
 
     std::cout << "Output: " << not1->getOutput(0)->getVal() << std::endl;

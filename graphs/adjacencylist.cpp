@@ -208,6 +208,28 @@ std::stack<uint32_t> AdjacencyList::topologicalSort()
     return sorted;
 }
 
+std::vector<uint32_t> AdjacencyList::getInputs()
+{
+    std::vector<uint32_t> inputs{};
+    for(uint32_t idx = 0; idx < mAdjacency.size(); ++idx)
+    {
+        if(getInDegree(idx) == 0 && getOutDegree(idx) > 0)
+            inputs.emplace_back(idx);
+    }
+    return inputs;
+}
+
+std::vector<uint32_t> AdjacencyList::getOutputs()
+{
+    std::vector<uint32_t> outputs{};
+    for(uint32_t idx = 0; idx < mAdjacency.size(); ++idx)
+    {
+        if(getInDegree(idx) > 0 && getOutDegree(idx) == 0)
+            outputs.emplace_back(idx);
+    }
+    return outputs;
+}
+
 void AdjacencyList::topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::vector<bool>& visited)
 {
     visited.at(idx) = true;

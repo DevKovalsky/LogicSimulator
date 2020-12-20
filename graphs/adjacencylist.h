@@ -27,6 +27,8 @@ public:
     std::vector<uint32_t> getAllLoops() override;
     std::vector<uint32_t> DFS(uint32_t startVertexIdx) override;
     std::stack<uint32_t> topologicalSort() override;
+    std::vector<uint32_t> getInputs() override;
+    std::vector<uint32_t> getOutputs() override;
     void show() override;
 
 protected:

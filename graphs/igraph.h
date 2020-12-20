@@ -25,6 +25,8 @@ public:
     virtual std::vector<uint32_t> getAllLoops() = 0;
     virtual std::vector<uint32_t> DFS(uint32_t startVertexIdx) = 0;
     virtual std::stack<uint32_t> topologicalSort() = 0;
+    virtual std::vector<uint32_t> getInputs() = 0;
+    virtual std::vector<uint32_t> getOutputs() = 0;
     virtual void show() = 0;
 
 protected:
