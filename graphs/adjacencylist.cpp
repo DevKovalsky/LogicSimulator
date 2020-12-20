@@ -4,23 +4,37 @@
 
 AdjacencyList::AdjacencyList(uint32_t vertexCount)
 {
-    mAdjacency.resize(vertexCount);
 }
 
 void AdjacencyList::addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
 {
-    mAdjacency.at(startVertexIdx).emplace_back(endVertexIdx);
+    try
+    {
+        mAdjacency.at(startVertexIdx).emplace_back(endVertexIdx);
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":" << __LINE__ << " Out of range. start: " << startVertexIdx << " end: " << endVertexIdx << std::endl;
+    }
+
 }
 
 bool AdjacencyList::removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
 {
-    auto neighbors = mAdjacency.at(startVertexIdx);
-    auto res = std::find(std::begin(neighbors), std::end(neighbors), endVertexIdx);
-    if(res != std::end(neighbors))
+    try
     {
-        auto dis = std::distance(neighbors.begin(), res);
-        mAdjacency.at(startVertexIdx).erase(mAdjacency.at(startVertexIdx).begin() + dis);
-        return true;
+        auto neighbors = mAdjacency.at(startVertexIdx);
+        auto res = std::find(std::begin(neighbors), std::end(neighbors), endVertexIdx);
+        if(res != std::end(neighbors))
+        {
+            auto dis = std::distance(neighbors.begin(), res);
+            mAdjacency.at(startVertexIdx).erase(mAdjacency.at(startVertexIdx).begin() + dis);
+            return true;
+        }
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":" << __LINE__ << " Out of range. start: " << startVertexIdx << " end: " << endVertexIdx << std::endl;
     }
 
     return false;
@@ -28,27 +42,26 @@ bool AdjacencyList::removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx)
 
 uint32_t AdjacencyList::addVertex()
 {
-    uint32_t newVertexIdx = static_cast<uint32_t>(mAdjacency.size());
-    mAdjacency.emplace_back(newVertexIdx);
-    mAdjacency.at(newVertexIdx).resize(0); // ?
-    return newVertexIdx;
+    return 0;
+}
+
+void AdjacencyList::addVertex(uint32_t idx)
+{
+    mAdjacency[idx] = std::vector<uint32_t>{};
 }
 
 bool AdjacencyList::removeVertex(uint32_t vertexIdx) // vector idx shift :(, przy usunieciu->izolowany wierzcholek i idx do wolnej puli, najpierw z puli, nastepnie kolejny
 {
-    auto res = mAdjacency.erase(mAdjacency.begin() + vertexIdx);
-    if(res != std::end(mAdjacency))
-        return true;
-
-    return false;
+    mAdjacency.erase(vertexIdx);
+    return true;
 }
 
 uint32_t AdjacencyList::getInDegree(uint32_t vertexIdx)
 {
     uint32_t counter{};
-    for(auto& vertices : mAdjacency)
+    for(auto& row : mAdjacency)
     {
-        for(auto& vertex : vertices)
+        for(auto& vertex : row.second)
         {
             if(vertex == vertexIdx)
                 counter++;
@@ -59,7 +72,15 @@ uint32_t AdjacencyList::getInDegree(uint32_t vertexIdx)
 
 uint32_t AdjacencyList::getOutDegree(uint32_t vertexIdx)
 {
-    return static_cast<uint32_t>(mAdjacency.at(vertexIdx).size());
+    try
+    {
+        return mAdjacency.at(vertexIdx).size();
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__<< ":" << __LINE__ << " Out of range. vertexId: " << vertexIdx << std::endl;
+        return 0;
+    }
 }
 
 bool AdjacencyList::isIsolated(uint32_t vertexIdx)
@@ -85,33 +106,59 @@ uint32_t AdjacencyList::getVerticesCount()
 
 std::vector<uint32_t> AdjacencyList::getVertexNeighbors(uint32_t vertexIdx) //sąsiedzi wierzchołka vi ->
 {
-    return mAdjacency.at(vertexIdx);
+    try
+    {
+        return mAdjacency.at(vertexIdx);
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":"  << __LINE__ << " Out of range. vertexId: " << vertexIdx << std::endl;
+        return {};
+    }
 }
 
 std::vector<uint32_t> AdjacencyList::getVerticesWhereIdxIsNeighbor(uint32_t vertexIdx) //Wierzchołki, dla których vi  jest sąsiadem <-
 {
     std::vector<uint32_t> neighbors{};
-    for(uint32_t i = 0; i < mAdjacency.size(); ++i)
+    try
     {
-        for(auto& vertex : mAdjacency.at(i))
+        for(uint32_t i = 0; i < mAdjacency.size(); ++i)
         {
-            if(vertex == vertexIdx)
+            for(auto& vertex : mAdjacency.at(i))
             {
-                neighbors.emplace_back(i);
-                break; // ?
+                if(vertex == vertexIdx)
+                {
+                    neighbors.emplace_back(i);
+                    break; // ?
+                }
             }
         }
     }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":"  << __LINE__ << " Out of range. vertexId: " << vertexIdx << std::endl;
+        return {};
+    }
+
     return neighbors;
 }
 
 bool AdjacencyList::isLoop(uint32_t vertexIdx)
 {
-    for(auto& vertex : mAdjacency.at(vertexIdx))
+    try
     {
-        if(vertex == vertexIdx)
-            return true;
+        for(auto& vertex : mAdjacency.at(vertexIdx))
+        {
+            if(vertex == vertexIdx)
+                return true;
+        }
     }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":"  << __LINE__ << " Out of range. vertexId: " << vertexIdx << std::endl;
+        return {};
+    }
+
     return false;
 }
 
@@ -197,22 +244,34 @@ void AdjacencyList::recursiveDFS(uint32_t idx, std::vector<uint32_t>& dfs, std::
 std::stack<uint32_t> AdjacencyList::topologicalSort()
 {
     std::stack<uint32_t> sorted{};
-    std::vector<bool> visited{}; //uint8_t (char)??
-    visited.resize(mAdjacency.size());
-
-    for(uint32_t i = 0; i < mAdjacency.size(); ++i)
+    try
     {
-        if(visited.at(i) == false)
-            topologicalSortRecursive(i, sorted, visited);
+        std::map<uint32_t, bool> visited{};
+
+        for(auto& row : mAdjacency)
+            visited[row.first] = false;
+
+        for(auto& row : mAdjacency)
+        {
+            if(visited.at(row.first) == false)
+                topologicalSortRecursive(row.first, sorted, visited);
+        }
     }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":"  << __LINE__ << " Out of range." << std::endl;
+        return {};
+    }
+
     return sorted;
 }
 
 std::vector<uint32_t> AdjacencyList::getInputs()
 {
     std::vector<uint32_t> inputs{};
-    for(uint32_t idx = 0; idx < mAdjacency.size(); ++idx)
+    for(auto& row : mAdjacency)
     {
+        auto idx = row.first;
         if(getInDegree(idx) == 0 && getOutDegree(idx) > 0)
             inputs.emplace_back(idx);
     }
@@ -222,36 +281,49 @@ std::vector<uint32_t> AdjacencyList::getInputs()
 std::vector<uint32_t> AdjacencyList::getOutputs()
 {
     std::vector<uint32_t> outputs{};
-    for(uint32_t idx = 0; idx < mAdjacency.size(); ++idx)
+    for(auto& row : mAdjacency)
     {
+        auto idx = row.first;
         if(getInDegree(idx) > 0 && getOutDegree(idx) == 0)
             outputs.emplace_back(idx);
     }
     return outputs;
 }
 
-void AdjacencyList::topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::vector<bool>& visited)
+void AdjacencyList::topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::map<uint32_t, bool>& visited)
 {
-    visited.at(idx) = true;
-
-    for(auto& el : mAdjacency.at(idx))
+    try
     {
-        if(visited.at(el) == false)
-            topologicalSortRecursive(el, sorted, visited);
-    }
+        visited.at(idx) = true;
 
-    sorted.push(idx);
+        for(auto& el : mAdjacency.at(idx))
+        {
+            if(visited.at(el) == false)
+                topologicalSortRecursive(el, sorted, visited);
+        }
+
+        sorted.push(idx);
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cout << __FUNCTION__ << ":"  << __LINE__ << " Out of range." << std::endl;
+    }
 }
 
 void AdjacencyList::show()
 {
-    for(uint32_t i = 0; i < mAdjacency.size(); ++i)
+    for(auto& row : mAdjacency)
     {
-        std::cout << i << ": ";
-        for(uint32_t j = 0; j < mAdjacency.at(i).size(); ++j)
+        std::cout << row.first << ": ";
+        for(auto& vertex : row.second)
         {
-            std::cout << mAdjacency.at(i).at(j) << " ";
+             std::cout << vertex << " ";
         }
         std::cout << std::endl;
     }
+}
+
+void AdjacencyList::clear()
+{
+    mAdjacency.clear();
 }

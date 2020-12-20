@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <map>
 
 #include "igraph.h"
 
@@ -13,6 +14,7 @@ public:
     void addEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) override;
     bool removeEdge(uint32_t startVertexIdx, uint32_t endVertexIdx) override;
     uint32_t addVertex() override;
+    void addVertex(uint32_t idx);
     bool removeVertex(uint32_t vertexIdx) override;
     std::vector<uint32_t> getVertexNeighbors(uint32_t vertexIdx) override;
     std::vector<uint32_t> getVerticesWhereIdxIsNeighbor(uint32_t vertexIdx) override;
@@ -30,11 +32,14 @@ public:
     std::vector<uint32_t> getInputs() override;
     std::vector<uint32_t> getOutputs() override;
     void show() override;
+    void clear();
 
 protected:
-    void recursiveDFS(uint32_t idx, std::vector<uint32_t> &dfs, std::vector<bool> &visited) override;
-    void topologicalSortRecursive(uint32_t idx, std::stack<uint32_t> &sorted, std::vector<bool> &visited) override;
+    void recursiveDFS(uint32_t idx, std::vector<uint32_t>& dfs, std::vector<bool>& visited) override;
+    void topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::map<uint32_t, bool>& visited) override;
 
 private:
-    std::vector<std::vector<uint32_t>> mAdjacency;
+    //std::vector<std::vector<uint32_t>> mAdjacency;
+    //std::vector<std::pair<uint32_t, std::vector<uint32_t>>> mAdjacency;
+    std::map<uint32_t, std::vector<uint32_t>> mAdjacency;
 };
