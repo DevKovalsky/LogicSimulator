@@ -1,4 +1,5 @@
-#include "xorgate.h"
+#include "gates/xorgate.h"
+#include "signal.h"
 
 XorGate::XorGate(uint32_t inputsCount)
     : Element(inputsCount, 1)

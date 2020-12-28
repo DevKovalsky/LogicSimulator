@@ -1,4 +1,5 @@
-#include "andgate.h"
+#include "gates/andgate.h"
+#include "signal.h"
 
 AndGate::AndGate(uint32_t inputsCount)
     : Element (inputsCount, 1)

@@ -1,4 +1,5 @@
-#include "orgate.h"
+#include "gates/orgate.h"
+#include "signal.h"
 
 OrGate::OrGate(uint32_t inputsCount)
     : Element (inputsCount, 1)

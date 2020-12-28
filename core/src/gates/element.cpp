@@ -1,4 +1,5 @@
-#include "element.h"
+#include "gates/element.h"
+#include "signal.h"
 
 uint32_t Element::staticIndex = 0;
 

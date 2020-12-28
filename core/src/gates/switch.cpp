@@ -1,5 +1,5 @@
-#include "switch.h"
-
+#include "gates/switch.h"
+#include "signal.h"
 
 Switch::Switch()
     : Element (0, 1)

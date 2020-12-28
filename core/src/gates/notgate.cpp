@@ -1,4 +1,5 @@
-#include "notgate.h"
+#include "gates/notgate.h"
+#include "signal.h"
 
 NotGate::NotGate()
     : Element(1, 1)

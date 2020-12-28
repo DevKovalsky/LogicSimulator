@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 
+class Signal;
+
 class Element
 {
 public:

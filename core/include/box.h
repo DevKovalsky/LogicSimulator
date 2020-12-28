@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 
-#include "element.h"
+#include "gates/element.h"
 
 class AdjacencyList;
 

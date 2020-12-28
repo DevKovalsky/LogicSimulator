@@ -1,11 +1,9 @@
-#include <QCoreApplication>
-
 #include "adjacencylist.h"
 #include "box.h"
-#include "orgate.h"
-#include "switch.h"
-#include "andgate.h"
-#include "notgate.h"
+#include "gates/orgate.h"
+#include "gates/switch.h"
+#include "gates/andgate.h"
+#include "gates/notgate.h"
 
 //class AdjacencyMatrix
 //{
@@ -121,8 +119,6 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
     std::shared_ptr<Switch> switch1 = std::make_shared<Switch>();
     std::shared_ptr<Switch> switch2 = std::make_shared<Switch>();
     std::shared_ptr<Switch> switch3 = std::make_shared<Switch>();
@@ -187,5 +183,5 @@ int main(int argc, char *argv[])
 
     std::cout << "Output: " << not1->getOutput(0)->getVal() << std::endl;
 
-    return a.exec();
+    return 0;
 }
