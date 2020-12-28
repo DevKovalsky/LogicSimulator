@@ -34,6 +34,8 @@ public:
     void show() override;
     void clear();
 
+    bool hasIdx(uint32_t idx);
+
 protected:
     void recursiveDFS(uint32_t idx, std::vector<uint32_t>& dfs, std::vector<bool>& visited) override;
     void topologicalSortRecursive(uint32_t idx, std::stack<uint32_t>& sorted, std::map<uint32_t, bool>& visited) override;

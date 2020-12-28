@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
     //switch3->toggleOutput();
     //switch4->toggleOutput();
 
-    circuit.createConnectionBetweenElements(switch1->getIdx(), or1->getIdx(), 0, 0);
+    //circuit.createConnectionBetweenElements(switch1->getIdx(), or1->getIdx(), 0, 0);
     circuit.createConnectionBetweenElements(switch2->getIdx(), or1->getIdx(), 1, 0);
 
     circuit.createConnectionBetweenElements(switch3->getIdx(), or2->getIdx(), 0, 0);
@@ -169,15 +169,23 @@ int main(int argc, char *argv[])
     subCircuit->createConnectionBetweenElements(subSwitch1->getIdx(), subOr1->getIdx(), 0, 0);
     subCircuit->createConnectionBetweenElements(subSwitch2->getIdx(), subOr1->getIdx(), 1, 0);
 
-    circuit.addElement(subCircuit);
+    //circuit.addElement(subCircuit);
+    circuit.appendCircuit(subCircuit);
 
-    auto in = subCircuit->getInputVerticesIdx();
-    auto out = subCircuit->getOutputVerticesIdx();
+    auto inIdxs = subCircuit->getInputVerticesIdx();
+    auto outIdxs = subCircuit->getOutputVerticesIdx();
+
+    auto in = subCircuit->getInputElements();
+    auto out = subCircuit->getOutputElements();
+
+    circuit.createConnectionBetweenElements(out[0]->getIdx(), or1->getIdx(), 0, 0);
+
+    subSwitch2->changeOutput(State::HIGH);
+    switch4->changeOutput(State::HIGH);
 
     circuit.process();
 
     std::cout << "Output: " << not1->getOutput(0)->getVal() << std::endl;
-    //std::cout << "Output: " << subCircuit->getOutput(0)->getVal() << std::endl;
 
     return a.exec();
 }

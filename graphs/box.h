@@ -20,6 +20,9 @@ public:
     void createConnectionBetweenElements(uint32_t startIdx, uint32_t endIdx, uint32_t outIdx, uint32_t inIdx);
     std::vector<uint32_t> getInputVerticesIdx();
     std::vector<uint32_t> getOutputVerticesIdx();
+    std::vector<std::shared_ptr<Element>> getInputElements();
+    std::vector<std::shared_ptr<Element>> getOutputElements();
+    void appendCircuit(std::shared_ptr<Box> box);
 
 private:
     std::map<uint32_t, std::shared_ptr<Element>> mIdxsToElements{};

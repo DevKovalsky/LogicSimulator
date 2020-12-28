@@ -50,3 +50,40 @@ std::vector<uint32_t> Box::getOutputVerticesIdx()
 {
     return mAdjacencyList->getOutputs();
 }
+
+std::vector<std::shared_ptr<Element>> Box::getInputElements()
+{
+    std::vector<std::shared_ptr<Element>> elements{};
+    auto idxs = mAdjacencyList->getInputs();
+    for(auto& idx : idxs)
+    {
+        elements.emplace_back(mIdxsToElements[idx]);
+    }
+    return elements;
+}
+
+std::vector<std::shared_ptr<Element>> Box::getOutputElements()
+{
+    std::vector<std::shared_ptr<Element>> elements{};
+    auto idxs = mAdjacencyList->getOutputs();
+    for(auto& idx : idxs)
+    {
+        elements.emplace_back(mIdxsToElements[idx]);
+    }
+    return elements;
+}
+
+void Box::appendCircuit(std::shared_ptr<Box> box)
+{
+    for(auto& pair : box->mIdxsToElements)
+    {
+        auto idx = pair.first;
+        if(mIdxsToElements.find(idx) != mIdxsToElements.end() || mAdjacencyList->hasIdx(idx)) // or czy and??
+        {
+            return;
+        }
+        mIdxsToElements[idx] = pair.second;
+        addElement(pair.second);
+        // add some log
+    }
+}

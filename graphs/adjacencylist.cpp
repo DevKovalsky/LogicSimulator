@@ -327,3 +327,8 @@ void AdjacencyList::clear()
 {
     mAdjacency.clear();
 }
+
+bool AdjacencyList::hasIdx(uint32_t idx)
+{
+    return mAdjacency.find(idx) != mAdjacency.end();
+}
