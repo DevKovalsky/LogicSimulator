@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 
+#include "Logger.h"
+
 class Signal;
 
 class Element

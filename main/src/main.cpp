@@ -5,8 +5,16 @@
 #include "gates/andgate.h"
 #include "gates/notgate.h"
 
+#include "Logger.h"
+
 int main(int argc, char *argv[])
 {
+
+    Logger logger(LogLevel::INFO);
+    logger.addStream(std::wcout, LogLevel::INFO);
+
+    LOGINFO(logger, "LogicSimulator start");
+
     std::shared_ptr<Switch> switch1 = std::make_shared<Switch>();
     std::shared_ptr<Switch> switch2 = std::make_shared<Switch>();
     std::shared_ptr<Switch> switch3 = std::make_shared<Switch>();
@@ -69,7 +77,9 @@ int main(int argc, char *argv[])
 
     circuit.process();
 
-    std::cout << "Output: " << not1->getOutput(0)->getVal() << std::endl;
+    std::string outputStr = "Output: " + std::to_string(not1->getOutput(0)->getVal());
+    LOGDEBUG(logger, outputStr.c_str());
+    LOGINFO(logger, "Good bye :)");
 
     return 0;
 }

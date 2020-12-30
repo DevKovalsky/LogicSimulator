@@ -18,6 +18,11 @@ set_target_properties(${PROJECT_NAME}
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         )
 
+target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+        utils
+        )
+
 target_include_directories(${PROJECT_NAME}
         PUBLIC
         include

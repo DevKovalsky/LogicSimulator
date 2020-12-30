@@ -11,7 +11,7 @@ Box::Box(uint32_t inputsCount, uint32_t outputsCount)
 
 void Box::process()
 {
-    mAdjacencyList->show();
+    //mAdjacencyList->show();
     auto elementsOrder = mAdjacencyList->topologicalSort();
     while (elementsOrder.empty() == false)
     {
