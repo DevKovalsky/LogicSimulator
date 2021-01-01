@@ -39,6 +39,9 @@ void Box::createConnectionBetweenElements(uint32_t startIdx, uint32_t endIdx, ui
 {
     mAdjacencyList->addEdge(startIdx, endIdx);
     mIdxsToElements.at(endIdx)->setInput(inIdx, mIdxsToElements.at(startIdx)->getOutput(outIdx));
+
+    Connection conn{startIdx, endIdx, inIdx, outIdx}; //redundand information but necessary for creating connections
+    mConnections.emplace_back(conn);
 }
 
 std::vector<uint32_t> Box::getInputVerticesIdx()

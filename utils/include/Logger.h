@@ -34,7 +34,7 @@ struct StreamInfo
 class Logger
 {
 public:
-    Logger(LogLevel lvl);
+    Logger(bool coutStream = false);
     ~Logger();
 
     void log(const char* msg, LogLevel level);
@@ -43,6 +43,5 @@ public:
 
 
 private:
-    LogLevel mLevel;
     std::vector<StreamInfo> mStreams;
 };

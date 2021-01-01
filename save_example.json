@@ -1,0 +1,74 @@
+{
+    "circuit": {
+        "gates": [
+            {
+                "id": 0,
+                "type": "switch",
+                "signal": "high"
+            },
+            {
+                "id": 1,
+                "type": "switch",
+                "signal": "low"
+            },
+            {
+                "id": 2,
+                "type": "and"
+            },
+            {
+                "id": 3,
+                "type": "box",
+                "name": "nor-box"
+            }
+        ],
+        "connections": [
+            {
+                "from": 0,
+                "to": 2,
+                "in": 0,
+                "out": 0
+            },
+            {
+                "from": 0,
+                "to": 4,
+                "in": 0,
+                "out": 0
+            },
+            {
+                "from": 1,
+                "to": 2,
+                "in": 1,
+                "out": 0
+            },
+            {
+                "from": 2,
+                "to": 4,
+                "in": 1,
+                "out": 0
+            }
+        ],
+        "boxes": [
+            {
+                "id": 3,
+                "connections": [
+                    {
+                        "from": 4,
+                        "to": 5,
+                        "in": 0,
+                        "out": 0
+                    }
+                ],
+                "gates": [
+                    {
+                        "id": 4,
+                        "type": "or"
+                    },
+                    {
+                        "id": 5,
+                        "type": "not"
+                    }
+                ]
+            }
+        ]
+    }
+}

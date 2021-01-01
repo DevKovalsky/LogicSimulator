@@ -7,6 +7,22 @@
 
 class AdjacencyList;
 
+struct Connection
+{
+    uint32_t from;
+    uint32_t to;
+    uint32_t inputNumber;
+    uint32_t outputNumber;
+
+    Connection(uint32_t start, uint32_t end, uint32_t input, uint32_t output)
+    {
+        from = start;
+        to = end;
+        inputNumber = input;
+        outputNumber = output;
+    }
+};
+
 class Box : public Element
 {
 public:
@@ -26,5 +42,6 @@ public:
 
 private:
     std::map<uint32_t, std::shared_ptr<Element>> mIdxsToElements{};
-    std::unique_ptr<AdjacencyList> mAdjacencyList;
+    std::unique_ptr<AdjacencyList> mAdjacencyList{};
+    std::vector<Connection> mConnections{};
 };

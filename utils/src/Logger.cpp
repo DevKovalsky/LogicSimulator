@@ -1,8 +1,10 @@
 #include "Logger.h"
 
-Logger::Logger(LogLevel lvl)
-    : mLevel(lvl)
+Logger::Logger(bool coutStream)
 {
+    std::cout << "Logger konstruktor" << std::endl;
+    if(coutStream)
+        addStream(std::wcout, LogLevel::INFO);
 }
 
 Logger::~Logger()

@@ -9,8 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-
-    Logger logger(LogLevel::INFO);
+    Logger logger;
     logger.addStream(std::wcout, LogLevel::INFO);
 
     LOGINFO(logger, "LogicSimulator start");
