@@ -9,10 +9,10 @@
 
 int main(int argc, char *argv[])
 {
-    Logger logger;
-    logger.addStream(std::wcout, LogLevel::INFO);
+    Logger::init();
+    Logger::getCoreLogger()->addStream(std::wcout, LogLevel::INFO);
 
-    LOGINFO(logger, "LogicSimulator start");
+    LOGINFO("LogicSimulator start");
 
     std::shared_ptr<Switch> switch1 = std::make_shared<Switch>();
     std::shared_ptr<Switch> switch2 = std::make_shared<Switch>();
@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
     circuit.process();
 
     std::string outputStr = "Output: " + std::to_string(not1->getOutput(0)->getVal());
-    LOGDEBUG(logger, outputStr.c_str());
-    LOGINFO(logger, "Good bye :)");
+//    LOGDEBUG(logger, outputStr.c_str());
+//    LOGINFO(logger, "Good bye :)");
 
     return 0;
 }

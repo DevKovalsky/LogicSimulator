@@ -17,6 +17,6 @@ void AndGate::process()
     mOutputs.at(0)->setState(res);
 
     std::string msg = "And idx = " + std::to_string(getIdx()) + " output value = " + std::to_string(res);
-    LOGINFO(logger, msg.c_str());
+    Logger::getCoreLogger()->info(msg.c_str());
 }
 

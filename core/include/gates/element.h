@@ -28,6 +28,5 @@ protected:
     uint32_t idx{};
     std::vector<std::shared_ptr<Signal>> mInputs{};
     std::vector<std::shared_ptr<Signal>> mOutputs{};
-    static Logger logger;
 };
 

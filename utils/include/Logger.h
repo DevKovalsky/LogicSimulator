@@ -5,11 +5,12 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <map>
 
-#define LOGINFO(logObj, msg) logObj.log(msg, LogLevel::INFO);
-#define LOGDEBUG(logObj, msg) logObj.log(msg, LogLevel::DEBUG);
-#define LOGWARNING(logObj, msg) logObj.log(msg, LogLevel::WARNING);
-#define LOGERROR(logObj, msg) logObj.log(msg, LogLevel::ERROR);
+#define LOGINFO(msg) ::Logger::getCoreLogger()->info(msg);
+#define LOGDEBUG(msg) ::Logger::getCoreLogger()->debug(msg);
+#define LOGWARNING(msg) ::Logger::getCoreLogger()->warn(msg);
+#define LOGERROR(msg)::Logger::getCoreLogger()->error(msg);
 
 enum class LogLevel
 {
@@ -34,14 +35,24 @@ struct StreamInfo
 class Logger
 {
 public:
-    Logger(bool coutStream = false);
+    Logger();
     ~Logger();
 
-    void log(const char* msg, LogLevel level);
+    static void init();
 
     void addStream(std::wostream& s, LogLevel level);
 
+    inline static std::shared_ptr<Logger>& getCoreLogger() {return mCoreLogger; }
+
+    void info(const char* msg);
+    void debug(const char* msg);
+    void warn(const char* msg);
+    void error(const char* msg);
 
 private:
+    void log(const char* msg, LogLevel level);
+    std::string getLabel(LogLevel level);
+
     std::vector<StreamInfo> mStreams;
+    static std::shared_ptr<Logger> mCoreLogger;
 };

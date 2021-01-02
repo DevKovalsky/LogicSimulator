@@ -2,7 +2,6 @@
 #include "signal.h"
 
 uint32_t Element::staticIndex = 0;
-Logger Element::logger{true};
 
 Element::Element(uint32_t inputsCount, uint32_t outputsCount)
 {
